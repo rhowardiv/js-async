@@ -5,6 +5,8 @@ parallelization.
 http://developer.yahoo.com/yui/theater/video.php?v=crockonjs-3
 (Sorry, slides have been taken off slideshare. If anyone has a link, LMK.)
 
+Uses the module system from https://github.com/rhowardiv/silly-module
+
 Calling Promise() returns a Promise. Here are the methods of a Promise:
 
 - when(Function): Add function to be run if/when the Promise is fulfilled.
