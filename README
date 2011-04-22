@@ -1,0 +1,54 @@
+An implementation of promises (aka deferreds, etc.) based on Crockford's
+Promise slide, with chaining (in at least two senses of the word!) and
+parallelization.
+
+http://developer.yahoo.com/yui/theater/video.php?v=crockonjs-3
+(Sorry, slides have been taken off slideshare. If anyone has a link, LMK.)
+
+Calling Promise() returns a Promise. Here are the methods of a Promise:
+
+- when(Function): Add function to be run if/when the Promise is fulfilled.
+  Returns the Promise.
+
+- fail(Function): Add function to be run if/when the Promise is smashed.
+  Returns the Promise.
+
+- fulfill(result): Set the state of the Promise to "fulfilled". All "when"
+  functions will be called with the result. Returns the Promise.
+
+- smash(result): Set the state of the Promise to "smashed". All "fail"
+  functions will be called with the result. Returns the Promise.
+
+- status(): Get the state of the Promise. Can be 'unresolved,' 'fulfilled' or
+  'smashed.'
+
+- then(Promise): Provide another Promise or function or array to chain after
+  this Promise. See PromiseChain.then(). Returns the resulting PromiseChain.
+
+- also(Promise): Provide another Promise or function to run in parallel with
+  this Promise. See PromiseChain.also(). Returns the resulting PromiseChain.
+
+
+Calling then() or also() on a Promise, or calling PromiseChain() returns a
+PromiseChain. Here are the methods of a PromiseChain():
+
+- then(Promise): Provide a function or Promise or array to add to the chain.
+  Returns the PromiseChain. If a function is provided, it will be called with
+  the result of the previous Promise in the chain. If it returns a Promise,
+  the chain continues. If it returns a false-y value, the chain is smashed.
+  If an array of Promises/functions is provided, they will all be
+  fulfilled/called before moving to the next link. If all Promises in this
+  link are fulfilled, the results are gathered into an array which is passed
+  to the fulfillment/call of the next link.
+
+- also(Promise): Provide a Promise or function to run in parallel with
+  the current last links--same as providing an array to then(). Returns
+  the PromiseChain.
+
+- when(Function): Add function to be run if/when the PromiseChain is
+  fulfilled. Returns the PromiseChain.
+
+- fail(Function): Add function to be run if/when the PromiseChain is smashed.
+  Returns the PromiseChain.
+
+- status(): Get the state of the PromiseChain; see Promise.status().
